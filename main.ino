@@ -6,6 +6,8 @@
 #define SCALE 4096 
 
 void setup() {
+
+  Serial.begin(115200); 
   
   accel_setup(DEV_ADDR); 
 
@@ -17,8 +19,17 @@ void setup() {
 
 void loop() {
 
-  accel_loop(DEV_ADDR, SCALE); 
+  static int x_pos; 
+  static int y_pos; 
 
-  motor_loop(); 
+  accel_loop(DEV_ADDR, SCALE, &x_pos, &y_pos); 
+  
+  Serial.println(x_pos); 
+  Serial.println(y_pos);
+
+  x_pos+=90; 
+  y_pos+=90;
+  
+  turret_position(x_pos, y_pos); 
   
 }

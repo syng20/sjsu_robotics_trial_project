@@ -3,41 +3,27 @@
 
 // servo pins
 #define YZ_SP 9 // D9
-#define XY_SP 10 // D10
+#define XZ_SP 10 // D10
 
 Servo YZ; 
-Servo XY; 
+Servo XZ; 
 
 
 void motor_setup() {
   
-//  pinMode(YZ_SP, OUTPUT); 
-//  pinMode(XY_SP, OUTPUT); 
-//
-//  Serial.begin(115200); 
+  YZ.attach(YZ_SP, 580, 2600);
+  XZ.attach(XZ_SP, 580, 2600); 
 
-  YZ.attach(YZ_SP);
-  XY.attach(XY_SP); 
+  YZ.write(90); 
+  XZ.writeMicroseconds(1500); 
 
   
 }
 
 
-void motor_loop() {
+void turret_position(int x_pos, int y_pos) {
 
-//  analogWrite(YZ_SP, 
-
-  YZ.writeMicroseconds(1500); 
-  XY.writeMicroseconds(1500); 
-  delay(500); 
-
-  YZ.writeMicroseconds(1000); 
-  XY.writeMicroseconds(1000); 
-  delay(500); 
-
-  YZ.writeMicroseconds(2000); 
-  XY.writeMicroseconds(2000); 
-  delay(500); 
-
-  
+  YZ.write(y_pos); 
+  XZ.write(x_pos);   
+ 
 }
