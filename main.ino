@@ -1,13 +1,17 @@
 // includes
 
-// addr = 0b1101000 bc AD0 low
-byte dev_addr = 0x68; 
-int scale = 4096; 
+
+// global variables
+#define DEV_ADDR 0x68 // addr = 0b1101000 bc AD0 low
+#define SCALE 4096 
 
 void setup() {
-  
-  accel_setup(dev_addr); 
 
+  Serial.begin(115200); 
+  
+  accel_setup(DEV_ADDR); 
+
+  motor_setup(); 
 
   
 }
@@ -15,6 +19,17 @@ void setup() {
 
 void loop() {
 
-  accel_loop(dev_addr, scale); 
+  static int x_pos; 
+  static int y_pos; 
+
+  accel_loop(DEV_ADDR, SCALE, &x_pos, &y_pos); 
+  
+  Serial.println(x_pos); 
+  Serial.println(y_pos);
+
+  x_pos+=90; 
+  y_pos+=90;
+  
+  turret_position(x_pos, y_pos); 
   
 }

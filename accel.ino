@@ -6,7 +6,7 @@
 void accel_setup(byte dev_addr) {
   Wire.begin(); 
   Wire.setClock(400000);
-  Serial.begin(115200); 
+  
 
   // accel setup
   // check WHO_AM_I
@@ -92,7 +92,7 @@ float trig_math(int16_t grav, int scale) {
   return (float)(asin((float)grav/scale) * 180 / 3.1415926);
 }
 
-void accel_loop(byte dev_addr, int scale) {
+void accel_loop(byte dev_addr, int scale, int* x_pos, int* y_pos) {
 
   // var
   static byte accel[6]; 
@@ -112,7 +112,8 @@ void accel_loop(byte dev_addr, int scale) {
   Serial.print("Z="); 
   Serial.println(accel_z); 
   
-//  print_accel(accel); 
+  *x_pos = (int)ceil(accel_x); 
+  *y_pos = (int)ceil(accel_y); 
 
   // delay 
   delay(500); 
