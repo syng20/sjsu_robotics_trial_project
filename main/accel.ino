@@ -1,7 +1,6 @@
 // includes
-#include <Wire.h>
-#include <Math.h> 
-
+#include<Wire.h>
+#include<Math.h> 
 
 void accel_setup(byte dev_addr) {
   Wire.begin(); 
@@ -67,6 +66,7 @@ void read_from_reg(byte dev_addr, byte reg_addr, byte rec_num, byte* message) {
   
 }
 
+
 // print initial accelerometer data
 void print_accel(byte* accel) {
   Serial.print("X="); 
@@ -82,9 +82,7 @@ void print_accel(byte* accel) {
 
 // from hex to float
 float gravity_math(byte high, byte low, int scale) {
-  float t = (float)((high << 8) + low); 
-//  t = constrain(t, scale*-1, scale); 
-  return t; 
+  return (float)((high << 8) + low); 
 }
 
 // get angle 
@@ -102,11 +100,14 @@ void accel_loop(byte dev_addr, int scale, float* x_pos, float* y_pos) {
 
   // get/set values 
   read_from_reg(dev_addr, 0x3B, 6, accel); 
+  Serial.println("HEX"); 
+  print_accel(accel); 
   accel_x = gravity_math(accel[0], accel[1], scale); 
   accel_y = gravity_math(accel[2], accel[3], scale); 
   accel_z = gravity_math(accel[4], accel[5], scale); 
 
   // print check
+  Serial.println("POST-GRAV"); 
   Serial.print("X="); 
   Serial.println(accel_x); 
   Serial.print("Y="); 
