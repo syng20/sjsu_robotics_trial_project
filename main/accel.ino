@@ -83,7 +83,7 @@ void print_accel(byte* accel) {
 // from hex to int
 int16_t gravity_math(byte high, byte low, int scale) {
   int16_t t = (int16_t)((high << 8) + low); 
-  t = constrain(t, scale*-1, scale); 
+//  t = constrain(t, scale*-1, scale); 
   return t; 
 }
 
@@ -101,9 +101,13 @@ void accel_loop(byte dev_addr, int scale, int* x_pos, int* y_pos) {
   static float accel_z; 
 
   read_from_reg(dev_addr, 0x3B, 6, accel); 
-  accel_x = trig_math(gravity_math(accel[0], accel[1], scale), scale); 
-  accel_y = trig_math(gravity_math(accel[2], accel[3], scale), scale); 
-  accel_z = trig_math(gravity_math(accel[4], accel[5], scale), scale); 
+//  accel_x = trig_math(gravity_math(accel[0], accel[1], scale), scale); 
+//  accel_y = trig_math(gravity_math(accel[2], accel[3], scale), scale); 
+//  accel_z = trig_math(gravity_math(accel[4], accel[5], scale), scale); 
+
+  accel_x = gravity_math(accel[0], accel[1], scale); 
+  accel_y = gravity_math(accel[2], accel[3], scale); 
+  accel_z = gravity_math(accel[4], accel[5], scale); 
 
   Serial.print("X="); 
   Serial.println(accel_x); 
