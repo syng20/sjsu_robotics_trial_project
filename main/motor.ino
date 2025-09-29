@@ -15,13 +15,13 @@ void motor_setup() {
   XZ.attach(XZ_SP, 580, 2600); 
 
   YZ.write(90); 
-  XZ.writeMicroseconds(1500); 
+  XZ.write(90); 
 
   
 }
 
 
-void turret_position(int x_pos, int y_pos) {
+void turret_position(int x_pos, int y_pos, bool change_x, bool change_y) {
 
   YZ.write(y_pos); 
   XZ.write(x_pos);   
