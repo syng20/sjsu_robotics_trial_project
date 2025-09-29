@@ -13,9 +13,9 @@ RunAvg::RunAvg() {
 int RunAvg::get_avg() { return curr_avg; }
 
 // update 
-void RunAvg::update_avg(int next) {
+void RunAvg::update_avg(float next) {
   rec_ten[index] = next; 
-  int t = 0; 
+  float t = 0; 
   for (int i=0; i<10; i++) t += rec_ten[i]; 
   curr_avg = t/10; 
   if (index == 9) index = 0; 

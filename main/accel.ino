@@ -80,19 +80,19 @@ void print_accel(byte* accel) {
   Serial.println(accel[5], HEX); 
 }
 
-// from hex to int
-int16_t gravity_math(byte high, byte low, int scale) {
-  int16_t t = (int16_t)((high << 8) + low); 
+// from hex to float
+float gravity_math(byte high, byte low, int scale) {
+  float t = (float)((high << 8) + low); 
 //  t = constrain(t, scale*-1, scale); 
   return t; 
 }
 
 // get angle 
-float trig_math(int16_t grav, int scale) {
-  return (float)(asin((float)grav/scale) * 180 / 3.1415926);
+float trig_math(float grav, int scale) {
+  return (float)(asin(grav/scale) * 180 / 3.1415926);
 }
 
-void accel_loop(byte dev_addr, int scale, int* x_pos, int* y_pos) {
+void accel_loop(byte dev_addr, int scale, float* x_pos, float* y_pos) {
 
   // var
   static byte accel[6]; 
@@ -100,26 +100,22 @@ void accel_loop(byte dev_addr, int scale, int* x_pos, int* y_pos) {
   static float accel_y; 
   static float accel_z; 
 
+  // get/set values 
   read_from_reg(dev_addr, 0x3B, 6, accel); 
-//  accel_x = trig_math(gravity_math(accel[0], accel[1], scale), scale); 
-//  accel_y = trig_math(gravity_math(accel[2], accel[3], scale), scale); 
-//  accel_z = trig_math(gravity_math(accel[4], accel[5], scale), scale); 
-
   accel_x = gravity_math(accel[0], accel[1], scale); 
   accel_y = gravity_math(accel[2], accel[3], scale); 
   accel_z = gravity_math(accel[4], accel[5], scale); 
 
+  // print check
   Serial.print("X="); 
   Serial.println(accel_x); 
   Serial.print("Y="); 
   Serial.println(accel_y); 
   Serial.print("Z="); 
   Serial.println(accel_z); 
-  
-  *x_pos = (int)ceil(accel_x); 
-  *y_pos = (int)ceil(accel_y); 
 
-  // delay 
-  delay(500); 
+  // sent out
+  *x_pos = accel_x; 
+  *y_pos = accel_y; 
   
 }

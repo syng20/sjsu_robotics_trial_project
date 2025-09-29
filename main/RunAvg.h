@@ -12,11 +12,11 @@ class RunAvg {
     // get/set
     int get_avg();
     // update average from new data 
-    void update_avg(int next); 
+    void update_avg(float next); 
 
   private: 
-    int rec_ten[10]; 
-    int curr_avg; 
+    float rec_ten[10]; 
+    float curr_avg; 
     int index; 
 };
 
